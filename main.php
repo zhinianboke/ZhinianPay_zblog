@@ -19,6 +19,8 @@ if(count($_POST)>0){
     $zbp->Config('ZhinianPay_zblog')->ffyd_weixin_zhifu = $_POST['ffyd_weixin_zhifu'];
     $zbp->Config('ZhinianPay_zblog')->ffyd_qq_zhifu = $_POST['ffyd_qq_zhifu'];
     
+    
+    $zbp->Config('ZhinianPay_zblog')->ffyd_zhifubaodangmianfu_appid = $_POST['ffyd_zhifubaodangmianfu_appid'];
     $zbp->Config('ZhinianPay_zblog')->ffyd_zhifubao_appid = $_POST['ffyd_zhifubao_appid'];
     $zbp->Config('ZhinianPay_zblog')->ffyd_zhifubao_private_key = $_POST['ffyd_zhifubao_private_key'];
     $zbp->Config('ZhinianPay_zblog')->ffyd_zhifubao_public_key = $_POST['ffyd_zhifubao_public_key'];
@@ -150,7 +152,19 @@ require $blogpath . 'zb_system/admin/admin_top.php';
         	
         	<tr>
         	    <th>
-            		<p align="center">支付宝appid</p>
+            		<p align="center">支付宝当面付appid</p>
+        	    </th>
+        	    <th>
+            		<p align="center"><input id="ffyd_zhifubaodangmianfu_appid" name="ffyd_zhifubaodangmianfu_appid" type="text" value="<?php echo $zbp->Config('ZhinianPay_zblog')->ffyd_zhifubaodangmianfu_appid;?>" /></p>
+        	    </th>
+        	    <th>
+        	        <p align="center"></p>
+    	        </th>
+        	</tr>
+        	
+        	<tr>
+        	    <th>
+            		<p align="center">支付宝应用appid</p>
         	    </th>
         	    <th>
             		<p align="center"><input id="ffyd_zhifubao_appid" name="ffyd_zhifubao_appid" type="text" value="<?php echo $zbp->Config('ZhinianPay_zblog')->ffyd_zhifubao_appid;?>" /></p>

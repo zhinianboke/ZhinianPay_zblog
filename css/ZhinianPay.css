@@ -9,10 +9,11 @@
     -ms-user-select: none;
     user-select: none;
     line-height: normal;
+    color: white;
 }
 #zhinian_hide__button {
     position: relative;
     font-style: normal;
     cursor: pointer;
-    color: white;
+    color: blue;
 }

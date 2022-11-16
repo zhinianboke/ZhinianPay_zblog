@@ -1,5 +1,5 @@
-# ZhinianPay_zblog
-## 实现zblog的付费阅读功能
+# zhinianpay-wp
+## 实现wordpress的付费阅读功能
 ### 1.支持支付宝和微信的官方
 ### 2.支持码支付
 ### 3.支持易支付
