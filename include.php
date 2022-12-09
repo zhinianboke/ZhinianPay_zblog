@@ -24,8 +24,9 @@ function ZhinianPay_zblog_html($template) {
 
 function ZhinianPay_zblog_str($content, $pid) {
 	global $zbp;
-	
-    
+    if($zbp->CheckRights ( 'root' )) {
+        return $content;
+    }
     $zhiniantempContent = $content;
     $zhiniantempContent = preg_replace('/{ZhinianPay[^}]*}/', 'ZhinianPayStart', $zhiniantempContent);
     $zhiniantempContent = preg_replace('/{\/ZhinianPay}/', 'ZhinianPayEnd', $zhiniantempContent);
@@ -82,11 +83,14 @@ function ZhinianPay_zblog_str($content, $pid) {
         }
     }
     $cookieName =  'ZhinianPayCookie'.$new;
+    $randomCode = md5(uniqid(microtime(true),true));
     if(!isset($_COOKIE[$cookieName])) {
-		$randomCode = md5(uniqid(microtime(true),true));
-		setcookie($cookieName, $randomCode, time()+3600*24*$cookietime);
+	    setcookie($cookieName, $randomCode, time()+3600*24*$cookietime);
 	}
-	$bussId = $_COOKIE[$cookieName];
+	$bussId = @$_COOKIE[$cookieName];
+	if(empty($bussId)) {
+	    $bussId = $randomCode;
+	}
     
     $form = '<form style="display:none;" target="_blank" action="https://dy.zhinianboke.com/pay/zhifu/ZhiFu001/init" method="post" id="subscribe_form"><input type="hidden" name="qqNum" value="'.$qqNum.'"><input type="hidden" name="alipay" value="'.$alipay.'"><input type="hidden" name="wxpay" value="'.$wxpay.'"><input type="hidden" name="qqpay" value="'.$qqpay.'"><input type="hidden" name="appId" value="'.$appId.'"><input type="hidden" name="mchId" value="'.$mchId.'"><input type="hidden" name="mchKey" value="'.$mchKey.'"><input type="hidden" id="ZhinianPay_cardId" name="cardId" value="'.$cardId.'"><input type="hidden" id="ZhinianPay_cookietime" value="'.$cookietime.'"><input type="hidden" name="orderName" value="文章付费阅读"><input type="hidden" id="ZhinianPay_cookieName" value="'.$cookieName.'"><input type="hidden" id="ZhinianPay_bussId" name="bussId" value="'.$bussId.'"><input type="hidden" name="orderDes" value="文章付费阅读"><input type="hidden" name="dangmianfuAppid" value="'.$dangmianfuAppid.'"><input type="hidden" name="alipayAppid" value="'.$alipay_appid.'"><input type="hidden" name="alipayAppPrivateKey" value="'.$app_private_key.'"><input type="hidden" name="alipayPublicKey" value="'.$alipay_public_key.'"><input type="hidden" id="ZhinianPay_orderFee" name="orderFee" value="'.$money.'"><input type="hidden" name="returnUrl" value="'.$returnUrl.'"><input type="hidden" name="interfUrl" value="'.$yizhif_interfUrl.'"><input type="hidden" name="pid" value="'.$yizhifu_pid.'"><input type="hidden" name="miyao" value="'.$yizhifu_miyao.'"><input type="hidden" name="mazhifuInterfUrl" value="'.$mazhifu_interfUrl.'"><input type="hidden" name="mazhifuPid" value="'.$mazhifu_pid.'"><input type="hidden" name="mazhifuMiyao" value="'.$mazhifu_miyao.'"><input type="submit" value="" id="submit"></form>';
     
@@ -95,8 +99,6 @@ function ZhinianPay_zblog_str($content, $pid) {
     $replaceEnd = $replaceEnd . '<span id="zhinian_hide">此处内容作者设置了 <i id="zhinian_hide__button">付费'.$money . ' 元(点击此处支付，付费后请刷新界面) </i>可见，付费后 '. $cookietime . ' 天内有效</span>'.$form;
     $content = preg_replace('/{ZhinianPay[^}]*}([\s\S]*?){\/ZhinianPay}/', $replaceEnd, $content);
 	return $content;
-    
-
     
 }  
 
